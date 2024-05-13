@@ -1,0 +1,49 @@
+# Ignore virtual environment
+inventory_env/
+
+# Ignore database files
+*.sqlite3
+
+# Ignore Python bytecode files
+__pycache__/
+
+# Ignore compiled Python files
+*.pyc
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore environment variables file (if you have any)
+.env
+
+# Python-related
+*.pyc
+__pycache__/
+*.pyo
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Python virtual environment
+venv/
+env/
+
+# Node.js-related
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE-related
+.vscode/
+.idea/
+
+# Compiled files
+dist/
+build/
+
+# Log files
+*.log
+
+# Other
+.DS_Store

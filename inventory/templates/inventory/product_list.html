@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom CSS */
+        .quantity-one {
+            color: red; /* Change to your desired color */
+        }
+        .note {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .note p {
+            margin-bottom: 5px;
+        }
+        
+        .product-name {
+            font-weight: bold;
+            color: #007bff; /* Change to your desired color */
+        }
+        
+        .quantity {
+            color: red; /* Change to your desired color */
+            font-weight: bold;
+        }
+    
+        /* Profile dropdown styles */
+        .user-profile {
+            position: relative;
+            margin-right: 20px; /* Adjust as needed */
+        }
+        
+        .profile-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: 40px; /* Adjust as needed */
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .profile-dropdown a {
+            display: block;
+            padding: 8px 0;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .profile-dropdown a:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .profile-dropdown.show {
+            display: block;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <div class="user-profile">
+                    <a class="profile-icon" id="profileDropdown"><i class="fas fa-user"></i></a>
+                    <div class="" id="profileDropdownContent">
+                        <a href="{% url 'profile' %}">Profile</a>
+                        <a href="{% url 'landing' %}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <h1>Product List</h1>
+    <!-- Add Product Button -->
+    <a href="{% url 'add_product' %}" class="btn btn-primary mb-3">Add Product</a>
+    <table class="table">    
+        
+        
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td {% if product.quantity <= 1 %}class="quantity-one"{% endif %}>{{ product.quantity }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>
+                        <form action="{% url 'update_product' product.pk %}" method="get" style="display: inline;">
+                            <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                        </form>
+                        <form action="{% url 'delete_product' product.pk %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Pagination -->
+        {% if products.has_other_pages %}
+                <ul class="pagination justify-content-end"> <!-- Align pagination to the right -->
+                    {% if products.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">{{ products.previous_page_number }}</a></li>
+                    {% endif %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ products.number }}">{{ products.number }}</a></li>
+                    {% if products.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">{{ products.next_page_number }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ products.paginator.num_pages }}">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+
+        <!-- Note -->
+        {% if products|length %}
+            <div class="note">
+                <p><strong>Note:</strong> The following products have a quantity of 1 or less:</p>
+                <ul class="list-unstyled">
+                    {% for product in products %}
+                        {% if product.quantity <= 1 %}
+                            <li><span class="product-name">{{ product.name }}</span> - <span class="quantity">{{ product.quantity }}</span></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileDropdownContent = document.getElementById('profileDropdownContent');
+        
+            if (!profileDropdown || !profileDropdownContent) {
+                console.error('Error: Could not find elements with IDs "profileDropdown" and "profileDropdownContent"');
+            } else {
+                profileDropdown.addEventListener('click', function() {
+                    profileDropdownContent.classList.toggle('show');
+                });
+        
+                window.addEventListener('click', function(event) {
+                    if (!event.target.matches('.profile-icon')) {
+                        if (profileDropdownContent.classList.contains('show')) {
+                            profileDropdownContent.classList.remove('show');
+                        }
+                    }
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>
