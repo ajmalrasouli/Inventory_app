@@ -8,12 +8,56 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth import update_session_auth_hash
 
+
+class EmailUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email']
+
+class PasswordResetForm(forms.Form):
+    new_password1 = forms.CharField(label='New Password', widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label='Confirm New Password', widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password1 = cleaned_data.get("new_password1")
+        new_password2 = cleaned_data.get("new_password2")
+
+        if new_password1 and new_password2:
+            if new_password1 != new_password2:
+                raise forms.ValidationError("Passwords do not match")
+        return cleaned_data
 
 @login_required
 def profile(request):
-    user = request.user  # Get the current logged-in user
-    return render(request, 'profile.html', {'user': user})
+    if request.method == 'POST':
+        if 'update_email' in request.POST:
+            email_form = EmailUpdateForm(request.POST, instance=request.user)
+            if email_form.is_valid():
+                email_form.save()
+                messages.success(request, 'Email address updated successfully')
+                return redirect('profile')
+        elif 'reset_password' in request.POST:
+            password_form = PasswordResetForm(request.POST)
+            if password_form.is_valid():
+                new_password = password_form.cleaned_data['new_password1']
+                request.user.set_password(new_password)
+                request.user.save()
+                update_session_auth_hash(request, request.user)
+                messages.success(request, 'Password reset successfully')
+                return redirect('profile')
+    else:
+        email_form = EmailUpdateForm(instance=request.user)
+        password_form = PasswordResetForm()
+
+    return render(request, 'profile.html', {
+        'email_form': email_form,
+        'password_form': password_form
+    })
 
 
 def register(request):

@@ -7,6 +7,7 @@ from .views import product_list, add_product, update_product, delete_product, re
 from django.conf.urls.static import static
 
 
+
 urlpatterns = [
     path('', views.landing_page, name='landing'),  # Landing page URL pattern
     path('product_list/', views.product_list, name='product_list'),
@@ -17,6 +18,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/profile/', views.profile, name='profile'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('profile/', views.profile, name='profile'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
