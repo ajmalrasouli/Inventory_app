@@ -28,6 +28,16 @@ git clone https://github.com/ajmalrasouli/Inventory_app.git
 - JavaScript
 - Bootstrap
 
+## Screenshots
+<img width="821" alt="product-list" src="https://github.com/ajmalrasouli/Inventory_app/assets/88502375/e99e105a-4f7c-4bfd-975c-9ba765cfca2e">
+
+<img width="251" alt="profile" src="https://github.com/ajmalrasouli/Inventory_app/assets/88502375/cb1ac8a4-11ba-4897-b9cb-440a171179d9">
+
+
+
+
+
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
