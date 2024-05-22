@@ -14,8 +14,18 @@ This is a web-based inventory management system built using Django.
 
 git clone https://github.com/ajmalrasouli/Inventory_app.git
 
+```
+cd .\inventory_management\
+```
+2. Install Requirements
 
+```
+pip install -r requirements.txt
+```
 
+```py
+python manage.py runserver
+```
 
 5. Access the application at `http://127.0.0.1:8000/`.
 
