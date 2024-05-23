@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+FROM python:alpine3.20
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
