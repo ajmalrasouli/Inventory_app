@@ -14,20 +14,59 @@ This is a web-based inventory management system built using Django.
 
 git clone https://github.com/ajmalrasouli/Inventory_app.git
 
+
+
+# Project Setup
+
+Follow these steps to set up the project environment and run the server.
+
 ```
 cd .\inventory_management\
 ```
-2. Install Requirements
 
+## Create a Virtual Environment
+
+```sh
+python -m venv venv
 ```
+
+Activate the Virtual Environment
+```sh
+venv\Scripts\activate
+```
+
+Install Dependencies
+To install the required dependencies, run:
+```sh
 pip install -r requirements.txt
 ```
 
-```py
+Usage
+Apply Migrations
+To apply database migrations, run:
+```sh
+python manage.py makemigrations
+```
+
+```sh
+python manage.py migrate
+```
+
+Create a Superuser
+To create a superuser, run:
+```sh
+python manage.py createsuperuser
+```
+
+Run the Server
+To start the development server, run:
+
+```sh
 python manage.py runserver
 ```
 
-5. Access the application at `http://127.0.0.1:8000/`.
+
+1. Access the application at `http://127.0.0.1:8000/`.
 
 ## Technologies Used
 
@@ -44,6 +83,15 @@ python manage.py runserver
 <img width="251" alt="profile" src="https://github.com/ajmalrasouli/Inventory_app/assets/88502375/cb1ac8a4-11ba-4897-b9cb-440a171179d9">
 
 
+## Contributing
+If you would like to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (**git checkout -b feature-branch**).
+3. Make your changes.
+4. Commit your changes (**git commit -m 'Add some feature'**).
+5. Push to the branch (**git push origin feature-branch**).
+6. Create a new Pull Request.
 
 
 
