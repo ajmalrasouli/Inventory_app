@@ -38,8 +38,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: your-dockerhub-username/inventory_app:latest
+          tags: ajmalrasouli/inventory_app:latest
 
       - name: Run tests
         run: |
-          docker run --rm your-dockerhub-username/inventory_app:latest python manage.py test
+          docker run --rm ajmalrasouli/inventory_app:latest python manage.py test
